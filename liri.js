@@ -12,98 +12,125 @@ var movieSearch = "";
 var nodeArgs = process.argv;
 var address = "";
 var params = {
-    screen_name: 'Jeffrey83236250',
-    count: 20,
+  screen_name: 'Jeffrey83236250',
+  count: 20,
 };
 
 for (var i = 3; i < nodeArgs.length; i++) {
   movieSearch = movieSearch + " " + nodeArgs[i];
-//   movieSearch.replace(' ', '+');
+  address = address + " " + nodeArgs[i];
 }
 
-for (var i = 3; i < nodeArgs.length; i++) {
-    address = address + " " + nodeArgs[i];
-  }
+if (!movieSearch) {
+  movieSearch = "American Pie";
+  //not going to default to the corny movie they required
+}
 
-// client.post('statuses/update', {status: 'Testing 123lir'}, function(error, tweet, response) {
-//     if (!error) {
-//       console.log(tweet);
-//     }
-//   });
+if (!address) {
+  address = "Take on me";
+}
 
 //twitter mytweets command line
-if(process.argv[2] === "my-tweets"){
-  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+if (process.argv[2] === "my-tweets") {
+  var raceCar = "\n\ō͡≡o˞̶  \ō͡≡o˞̶  \ō͡≡o˞̶  \ō͡≡o˞̶  \ō͡≡o˞̶                ∙،°.  ˘Ô≈ôﺣ   » » »\n";
+  client.get('statuses/user_timeline', params, function (error, tweets, response) {
     if (!error) {
-        console.log("Houston we have a problem!!!!");
-      }
-      console.log("------------------------------------------------------");
-      for(var i in tweets){
-        console.log(parseInt(i)+1 + ": "+ tweets[i].text + `\n` + tweets[i].user.created_at);
-      }
-});
+      console.log(raceCar);
+    }
+    console.log("°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸");
+    var jeffTweet = "";
+    for (var i in tweets) {
+      jeffTweet = parseInt(i) + 1 + ": \n" + tweets[i].text + `\n` + tweets[i].user.created_at;
+
+      console.log(jeffTweet);
+      fs.appendFile("log.txt", jeffTweet, function (err) {
+        if (err) throw err;
+
+      });
+
+    }
+    console.log("\n`·.¸¸ ><((((º>.·´¯`·><((((º> `·.¸¸ ><((((º>.·´¯`·><((((º> `·.¸¸ ><((((º>.·´¯`·><((((º>      \n");
+  });
 }
+
 //spotify stuff
 
-if (process.argv[2]==="spotify-this-song" && process.argv.length > 2){
-    
-spot.search({ type: 'track', query: address, limit: 1, offset: 1}, function(err, data) {
+if (process.argv[2] === "spotify-this-song") {
+
+  spot.search({
+    type: 'track',
+    query: address,
+    limit: 1,
+    offset: 1
+  }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    console.log("------------------------------------------------------");
-    console.log(`${data.tracks.items[0].artists[0].name}\n${data.tracks.items[0].name}\n${data.tracks.items[0].href}\n${data.tracks.items[0].album.name}`); 
-});
+
+    var divider = "\n(=====||:::::::::::::::::::::::::::::>\n";
+    var songData = `${data.tracks.items[0].artists[0].name}\n${data.tracks.items[0].name}\n${data.tracks.items[0].href}\n${data.tracks.items[0].album.name}`;
+    fs.appendFile("log.txt", songData + divider, function (err) {
+
+      if (err) throw err;
+      console.log(divider);
+      console.log(songData);
+      console.log(divider);
+    });
+    // console.log(divider);
+    // console.log(`${data.tracks.items[0].artists[0].name}\n${data.tracks.items[0].name}\n${data.tracks.items[0].href}\n${data.tracks.items[0].album.name}`);
+  });
 }
-// else {
-//     spot.search({ type: 'track', query: "the sign"}, function(err, data) {
-//         if (err) {
-//           return console.log('Error occurred: ' + err);
-//         }
-       
-//         console.log(data); 
-//     });
-// }
 
 //Movie Stuff
 
+if (process.argv[2] === "movie-this") {
+  request("http://www.omdbapi.com/?t=" + movieSearch + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
 
+    // If there were no errors and the response code was 200 (i.e. the request was successful)...
+    if (!error && response.statusCode === 200) {
+      var divider = "\nʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔ\n\n";
+      var movieData = `${JSON.parse(body).Title}\n${JSON.parse(body).Year}\n${JSON.parse(body).imdbRating}\n${JSON.parse(body).Ratings[1].Source}: ${JSON.parse(body).Ratings[1].Value}\n${JSON.parse(body).Country}\n${JSON.parse(body).Language}\n${JSON.parse(body).Plot}\n${JSON.parse(body).Actors}`;
+      fs.appendFile("log.txt", movieData + divider, function (err) {
 
-if(process.argv[2]=== "movie-this")
-request("http://www.omdbapi.com/?t="+ movieSearch +"&y=&plot=short&apikey=trilogy", function(error, response, body) {
-
-  // If there were no errors and the response code was 200 (i.e. the request was successful)...
-  if (!error && response.statusCode === 200) {
-    console.log(`${JSON.parse(body).Title}\n${JSON.parse(body).Year}\n${JSON.parse(body).imdbRating}\n${JSON.parse(body).Ratings}\n${JSON.parse(body).Country}\n${JSON.parse(body).Language}\n${JSON.parse(body).Plot}\n${JSON.parse(body).Actors}`);
-  }
-});
-
+        if (err) throw err;
+        console.log(divider);
+        console.log(movieData);
+        console.log(divider);
+      });
+    }
+  });
+}
 
 //read me portion
-if(process.argv[2] === "do-what-it-says"){
-   
-fs.readFile("random.txt", "utf8", function(error, data) {
+if (process.argv[2] === "do-what-it-says") {
 
-  // If the code experiences any errors it will log the error to the console.
-  if (error) {
-    return console.log(error);
-  }
+  fs.readFile("random.txt", "utf8", function (error, data) {
 
-  // Then split it by commas (to make it more readable)
-  var dataArr = data.split(",");
-  for (var i = 0; i < dataArr.length; i++) {
-    dataArr[i] = dataArr[i].trim();
-  }
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
 
-  console.log(dataArr);
-  // We will then re-display the content as an array for later use.
-  console.log( dataArr[0]);
-    console.log(dataArr[1]);
-  process.argv[0] = "node";
-  process.argv[]
+    var dataArr = data.split(",");
+    for (var i = 0; i < dataArr.length; i++) {
+      dataArr[i] = dataArr[i].trim();
+    }
 
-});
-}
-function convert(){
-    
+
+    if (dataArr[0] === "spotify-this-song") {
+      spot.search({
+        type: 'track',
+        query: dataArr[1],
+        limit: 1,
+        offset: 1
+      }, function (err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+        console.log("\n[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]\n");
+        console.log(`${data.tracks.items[0].artists[0].name}\n${data.tracks.items[0].name}\n${data.tracks.items[0].href}\n${data.tracks.items[0].album.name}`);
+        console.log("\n[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]  [̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]\n");
+      });
+    }
+  });
 }
