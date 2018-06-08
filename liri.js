@@ -69,7 +69,7 @@ if (process.argv[2] === "spotify-this-song") {
 
     var divider = "\n(=====||:::::::::::::::::::::::::::::>\n";
     var songData = `${data.tracks.items[0].artists[0].name}\n${data.tracks.items[0].name}\n${data.tracks.items[0].href}\n${data.tracks.items[0].album.name}`;
-    fs.appendFile("log.txt", songData + divider, function (err) {
+    fs.appendFile("log.txt", divider + songData + divider, function (err) {
 
       if (err) throw err;
       console.log(divider);
