@@ -146,11 +146,11 @@ for (var i = 3; i < nodeArgs.length; i++) {
     actorSearch = actorSearch + " " + nodeArgs[i];
 }
 if (!showSearch) {
-    showSearch = "Andy Griffith";
+    showSearch = "Game of Thrones";
 }
 
 if (!actorSearch) {
-    actorSearch = "Andy Griffith";
+    actorSearch = "Bryan Cranston";
 }
 
 if (process.argv[2] === "show") {

@@ -1,4 +1,4 @@
-console.log(`»»---------------------►Jeff's Liri-Bot»»---------------------►`);
+console.log(`\n»»---------------------►Jeff's Liri-Bot»»---------------------►`);
 
 exports.twitter = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
