@@ -90,7 +90,7 @@ if (process.argv[2] === "movie-this") {
     if (!error && response.statusCode === 200) {
       var divider = "\nʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔʕ•̫͡•ʕ*̫͡*ʕ•͓͡•ʔ-̫͡-ʕ•̫͡•ʔ*̫͡*ʔ-̫͡-ʔ\n\n";
       var movieData = `${JSON.parse(body).Title}\n${JSON.parse(body).Year}\n${JSON.parse(body).imdbRating}\n${JSON.parse(body).Ratings[1].Source}: ${JSON.parse(body).Ratings[1].Value}\n${JSON.parse(body).Country}\n${JSON.parse(body).Language}\n${JSON.parse(body).Plot}\n${JSON.parse(body).Actors}`;
-      fs.appendFile("log.txt", movieData + divider, function (err) {
+      fs.appendFile("log.txt", divider + movieData + divider, function (err) {
 
         if (err) throw err;
         console.log(divider);
