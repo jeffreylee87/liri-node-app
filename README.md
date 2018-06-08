@@ -2,6 +2,10 @@
 
 Basic command line node app that takes in parameters and gives you back data from Spotify, Twitter, OMDB, and other various sources. 
 
+Example Command Line Call: 
+
+node liri.js spotify-this-song don't stop believin
+
 Four Basic Commands: 
 
 Spotify
