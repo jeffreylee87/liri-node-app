@@ -134,3 +134,68 @@ if (process.argv[2] === "do-what-it-says") {
     }
   });
 }
+
+//just in case im bored
+
+var showSearch = "";
+var actorSearch = "";
+var nodeArgs = process.argv;
+
+for (var i = 3; i < nodeArgs.length; i++) {
+    showSearch = showSearch + " " + nodeArgs[i];
+    actorSearch = actorSearch + " " + nodeArgs[i];
+}
+if (!showSearch) {
+    showSearch = "Andy Griffith";
+}
+
+if (!actorSearch) {
+    actorSearch = "Andy Griffith";
+}
+
+if (process.argv[2] === "show") {
+    request("http://api.tvmaze.com/search/shows?q=" + showSearch, function (error, response, body) {
+
+        // If there were no errors and the response code was 200 (i.e. the request was successful)...
+        if (!error && response.statusCode === 200) {
+            // console.log(`.............Search for Show.............\n\nShow Name: ${JSON.parse(body)[0].show.name}\n\nGenre: ${JSON.parse(body)[0].show.genres}\n\nRating: ${JSON.parse(body)[0].show.rating.average}\n\nNetwork: ${JSON.parse(body)[0].show.network.name}\n\nSummary: ${JSON.parse(body)[0].show.summary}\n`);
+            
+            var jsonData = JSON.parse(body);
+            var divider =
+            "\nƸӜƷ.•°*”˜˜”*°•.ƸӜƷ•°*”˜˜”*°•.ƸӜƷƸӜƷ.•°*”˜˜”*°•.ƸӜƷ•°*”˜˜”*°•.ƸӜƷƸӜƷ.•°*”˜˜”*°•.ƸӜƷ•°*”˜˜”*°•.ƸӜƷ\n";
+        
+      // showData ends up being the string containing the show data we will print to the console
+      var showData = [
+        "Show: " + jsonData[0].show.name,
+        "Genre(s): " + jsonData[0].show.genres.join(", "),
+        "Rating: " + jsonData[0].show.rating.average,
+        "Network: " + jsonData[0].show.network.name,
+        "Summary: " + jsonData[0].show.summary
+      ].join("\n\n");
+
+      // Append showData and the divider to log.txt, print showData to the console
+      fs.appendFile("log.txt", divider + showData + divider, function(err) {
+        if (err) throw err;
+        console.log(divider);
+        console.log(showData);
+        console.log(divider);
+      });
+  
+        }
+    });
+}
+
+if (process.argv[2] === "actor") {
+    request("http://api.tvmaze.com/search/people?q=" + actorSearch, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          var liner = '\n♚ ♛ ♜ ♝ ♞ ♟ ♔ ♕ ♖ ♗ ♘ ♙♚ ♛ ♜ ♝ ♞ ♟ ♔ ♕ ♖ ♗ ♘ ♙♚ ♛ ♜ ♝ ♞ ♟ ♔ ♕ ♖ ♗ ♘ ♙ \n'
+            var act = `Name: ${JSON.parse(body)[0].person.name}\n\nGender: ${JSON.parse(body)[0].person.gender}\n\nBirthday: ${JSON.parse(body)[0].person.birthday}\n\nURL: ${JSON.parse(body)[0].person.url}`;
+            fs.appendFile("log.txt", liner + act + liner, function(err) {
+              if (err) throw err;
+              console.log(liner);
+              console.log(act);
+              console.log(liner);
+            });
+        }
+    });
+}
